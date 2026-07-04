@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+/* Warm-gray + ink palette — DESIGN.md named tokens. Nothing else. */
+@theme {
+  --color-paper: #efefed; /* Background */
+  --color-surface: #e8e8e6; /* Surface (cards, filled areas) */
+  --color-ink: #0a0a0a; /* Ink (primary text) */
+  --color-ink-muted: #9a9a98; /* Muted (secondary text) */
+  --color-hairline: #c4c4c2; /* Ghost (borders, dividers) */
+  --color-drape: #1c1c1a; /* Drape (page-transition curtain / footer bg) */
+  --color-accent: #2b4c7e; /* Accent (links, hover, one highlight per motif) */
+
+  /* φ type scale — root 112px ÷ 1.618 recursively (112 69 43 26 16.5 10). */
+  --text-hero: 7rem; /* 112 */
+  --text-display: 4.3125rem; /* 69  */
+  --text-title: 2.6875rem; /* 43  */
+  --text-subhead: 1.625rem; /* 26  */
+  --text-body: 1.03125rem; /* 16.5 */
+  --text-eyebrow: 0.625rem; /* 10  */
+
+  /* φ spacing scale — the SAME 1.618 ratio drives the rhythm. */
+  --spacing-phi-1: 0.625rem; /* 10  */
+  --spacing-phi-2: 1.03125rem; /* 16.5 */
+  --spacing-phi-3: 1.625rem; /* 26  */
+  --spacing-phi-4: 2.6875rem; /* 43  */
+  --spacing-phi-5: 4.3125rem; /* 69  */
+  --spacing-phi-6: 7rem; /* 112 */
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-name: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    hanging-punctuation: first last;
+  }
+
+  body {
+    font-optical-sizing: auto;
+    line-height: 1.65;
+  }
+
+  /* Fraunces for every heading. Component classes (.navlabel) override where a
+     heading is really a mono eyebrow. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  /* Keyboard focus: visible on every interactive element, accent ink. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Hero name — DM Sans 300, the one geometric title against Fraunces
+     everywhere else. Clamps up to the φ root (112px). */
+  .hero-name {
+    font-family: var(--font-name);
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 0.95;
+    font-size: clamp(2.75rem, 8.5vw, var(--text-hero));
+  }
+
+  /* Hero intro line — Fraunces italic, weight 300 (the one 300 exception). */
+  .hero-intro {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  /* The one allowed animation: link underline draws in, left to right. */
+  .ulink,
+  .prose a {
+    background-image: linear-gradient(currentcolor, currentcolor);
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: 0% 100%;
+    transition: background-size 300ms ease-out;
+  }
+
+  .ulink:hover,
+  .prose a:hover {
+    background-size: 100% 1px;
+  }
+
+  /* Body prose: Plus Jakarta Sans, φ body size, generous leading, ~65ch. */
+  .prose {
+    max-width: 65ch;
+    font-size: var(--text-body);
+    line-height: 1.7;
+  }
+
+  .prose p + p {
+    margin-top: 1.4em;
+  }
+
+  .prose a {
+    color: var(--color-accent);
+  }
+
+  .prose strong {
+    font-weight: 600;
+  }
+
+  /* Small mono: dates, tags, footnote-ish lines. */
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--color-ink-muted);
+  }
+
+  /* Small uppercase letter-spaced mono: nav + eyebrows. */
+  .navlabel {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  /* Title underline draw-in when the whole card is hovered. */
+  .gulink {
+    background-image: linear-gradient(currentcolor, currentcolor);
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: 0% 100%;
+    transition: background-size 300ms ease-out;
+  }
+
+  .group:hover .gulink {
+    background-size: 100% 1px;
+  }
+
+  /* Custom cursor (fine pointers only; see components/custom-cursor.tsx). */
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 60;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-ink);
+    background-color: var(--color-ink);
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    transition:
+      width 180ms ease-out,
+      height 180ms ease-out,
+      background-color 180ms ease-out,
+      border-color 180ms ease-out,
+      opacity 150ms ease-out;
+  }
+
+  .cursor-dot.is-visible {
+    opacity: 1;
+  }
+
+  .cursor-dot.is-ring {
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+  }
+
+  .cursor-dot.is-accent {
+    border-color: var(--color-accent);
+  }
+}
+
+/* Work-card motif hover animations — under 400ms, ease-out. */
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .motif-draw {
+    stroke-dasharray: 1;
+    animation: motif-draw 380ms ease-out;
+  }
+
+  .group:hover .motif-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: motif-pulse 380ms ease-out;
+  }
+}
+
+@keyframes motif-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes motif-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.4);
+  }
+}
+
+/* Recruiters print pages. Plain ink on white, no chrome. */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .cursor-dot {
+    display: none !important;
+  }
+
+  a,
+  .ulink,
+  .prose a,
+  .gulink {
+    color: inherit;
+    background: none;
+    text-decoration: underline;
+  }
+}

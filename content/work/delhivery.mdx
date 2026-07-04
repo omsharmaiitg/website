@@ -1,0 +1,76 @@
+---
+order: 2
+title: "Delhivery Network Intelligence"
+subtitle: "graph-based logistics optimization"
+tagline: "Finding the five hubs that slow a whole network down."
+period: "Jun 2025"
+org: "Consulting & Analytics Club, IIT Guwahati"
+tags:
+  - "Python"
+  - "XGBoost"
+  - "NetworkX"
+  - "node2vec"
+  - "Pandas"
+  - "Streamlit"
+link: "https://github.com/omsharmaiitg/delivery-network-intelligence"
+motif: "delhivery"
+---
+
+## the problem
+
+Delhivery’s routing engine systematically underestimates delivery times —
+only 4.1% of legs land within ±15% of the OSRM estimate. And the delay is
+heavily concentrated: the top 5 hubs account for 30.8% of all network
+excess delay, led by Gurgaon Bilaspur HB alone at 12.5%.<FootnoteMark />
+
+<Footnote>
+  worst corridor: Gurgaon ⇄ Bangalore — ~145k excess minutes in three weeks.
+</Footnote>
+
+## what i built
+
+Delhivery’s network, modelled as a directed weighted graph from ~144,900
+scan events (~14,800 trips), with a graph-enhanced XGBoost ETA model on
+top of it. Around the model: an FTL-vs-carting decision framework, a
+7-script reproducible pipeline, a consulting-style strategy memo, and a
+live 4-tab Streamlit operations dashboard.
+
+## how it works
+
+node2vec hub embeddings, betweenness and PageRank features, and corridor
+history priors give the model a sense of where each leg sits in the
+network — and leakage-safe train folds keep the evaluation honest.
+
+## results
+
+<ModelTable
+  caption="the graph features alone are worth −18.9% MAE and +12.8 pts on-target over the trip-only model."
+  rows={[
+    { model: "OSRM (routing engine)", mae: "107.8 min" },
+    { model: "Ridge regression", mae: "198.3 min" },
+    { model: "XGBoost, trip features only", mae: "34.2 min" },
+    { model: "XGBoost + graph features", mae: "27.8 min", highlight: true },
+  ]}
+/>
+
+<Stats
+  items={[
+    {
+      value: "74%",
+      label: "lower MAE than the routing engine",
+    },
+    {
+      value: "58.3%",
+      label: "on-target accuracy",
+    },
+    {
+      value: "339–778 min",
+      label: "saved per leg — FTL on 100% of corridors over 400 km",
+    },
+    {
+      value: "~₹1.5 cr/yr",
+      label:
+        "estimated recovery from upgrading the top 3 hubs — 28% fewer late deliveries on key corridors",
+    },
+  ]}
+/>

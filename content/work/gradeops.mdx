@@ -1,0 +1,43 @@
+---
+order: 1
+title: "GradeOps"
+subtitle: "AI-powered human-in-the-loop exam grading"
+tagline: "Grading handwritten exams — with humans in the loop."
+period: "Mar 2025 – Present"
+org: "Coding Club, IIT Guwahati"
+tags:
+  - "Python"
+  - "FastAPI"
+  - "React"
+  - "LangGraph"
+  - "Gemini"
+  - "NVIDIA Nemotron"
+  - "PostgreSQL"
+link: "https://github.com/exharmonic/gradeops"
+motif: "gradeops"
+---
+
+## the problem
+
+Handwritten exam scripts have to be read and scored against a rubric,
+answer by answer. AI can handle the first pass — but no grade should go
+out without a human seeing it first.
+
+## what i built
+
+A platform that OCRs handwritten exam scripts with NVIDIA Nemotron, scores
+each answer against instructor rubrics using Gemini, and routes every
+result through a human review queue before grades are released.
+
+## how it works
+
+A LangGraph state machine orchestrates the two-stage AI pipeline with
+SQLite checkpointing, so pending reviews survive server restarts. The
+backend is FastAPI + PostgreSQL with role-based cookie auth; the React
+frontend is built from scratch — instructor and TA dashboards, a
+keyboard-friendly review queue, and a landing page with Three.js visuals.
+
+## results
+
+Ongoing — in development with the Coding Club at IIT Guwahati since
+March 2025.

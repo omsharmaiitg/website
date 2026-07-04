@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Tiny ink version of the avatar's face: messy hair, rectangular glasses. -->
+  <rect width="64" height="64" rx="14" fill="#efefed"/>
+  <g fill="none" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 26c-1.5-9.5 5-16.5 13.5-17.5 3.5-1.8 9.5-1.8 13 0C47 9.5 53.5 16.5 52 26"/>
+    <path d="M17.5 15.5c2.6-2.6 5.4-4 8.5-4.6"/>
+    <path d="M39 10.9c2.9.7 5.6 2.2 7.8 4.6"/>
+    <rect x="10.5" y="30" width="18" height="13" rx="2.5"/>
+    <rect x="35.5" y="30" width="18" height="13" rx="2.5"/>
+    <path d="M28.5 35.5h7"/>
+    <path d="M10.5 33.5 6 32.5"/>
+    <path d="m53.5 33.5 4.5-1"/>
+    <path d="M26 52.5c4 2.8 8 2.8 12 0"/>
+  </g>
+</svg>
