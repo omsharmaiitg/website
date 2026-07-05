@@ -4,8 +4,18 @@ const Dot = () => <span aria-hidden="true">·</span>;
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-hairline">
-      <div className="meta mx-auto flex max-w-[720px] flex-wrap items-baseline gap-x-2 gap-y-1 px-6 py-8">
+    <footer
+      id="contact"
+      className="scroll-mt-24 border-t border-hairline py-16 md:py-20"
+    >
+      <div className="mx-auto max-w-[1080px] px-6">
+        <p className="navlabel text-ink-muted">contact</p>
+        <p className="mt-5 max-w-[520px] text-subhead italic text-ink-muted">
+          Building things, one problem at a time. If any of it resonates —
+          say hi.
+        </p>
+      </div>
+      <div className="meta mx-auto mt-10 flex max-w-[1080px] flex-wrap items-baseline gap-x-2 gap-y-1 px-6">
         <a className="ulink" href={`mailto:${email}`}>
           {email}
         </a>

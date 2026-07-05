@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * "The Watcher" — a self-contained, cursor-tracking low-poly avatar (v4).
+ * "The Watcher" — a self-contained, cursor-tracking low-poly avatar (v7).
  * Procedurally modelled from primitives (zero asset files). Renders its own
  * <Canvas> filling the wrapper; the parent owns size and placement.
  * Import with next/dynamic and ssr:false.
@@ -82,18 +82,16 @@ function useMediaQuery(query: string): boolean {
   return matches;
 }
 
-/* Reframes the camera: full figure normally, head + shoulders when compact. */
+/* Frames the WHOLE figure (head → sneakers) with margin at every size (v6).
+   The dock is a tiny square viewport, so compact pulls back a touch more to
+   keep a safe margin — it must never crop to a half-body. */
 function CameraRig({ compact }: { compact: boolean }) {
   const camera = useThree((s) => s.camera);
   const invalidate = useThree((s) => s.invalidate);
   useLayoutEffect(() => {
-    if (compact) {
-      camera.position.set(0, 3, 4.3);
-      camera.lookAt(0, 2.85, 0);
-    } else {
-      camera.position.set(0, 1.9, 7.7);
-      camera.lookAt(0, 1.8, 0);
-    }
+    // camera distance — bigger = more empty margin around the figure
+    camera.position.set(0, 1.82, compact ? 8.6 : 8.1);
+    camera.lookAt(0, 1.8, 0); // aim at the figure's vertical centre
     camera.updateProjectionMatrix();
     invalidate();
   }, [camera, compact, invalidate]);
@@ -485,37 +483,64 @@ function Figure({ accent, compact, reducedMotion, tracking, gesture }: FigurePro
           <boxGeometry args={[0.07, 0.2, 0.14]} />
         </mesh>
 
-        {/* hair — one connected mass (every block overlaps the base cap, no
-            seams) with angled tufts on top for the messy bedhead look */}
-        <mesh material={palette.ink} position={[0, 0.76, -0.02]}>
-          <boxGeometry args={[0.98, 0.34, 0.94]} />
+        {/* hair (v7) — 3 layers for real depth without noise. Head is 0.9 wide;
+            every piece sits PROUD of it (~0.08 out) so the hair has visible
+            thickness, not a painted-on shell.
+            L1 base cap: top cap sets a clean hairline + rounds via a low dome,
+            side panels reach down to the ears, a nape block covers the back —
+            no skin gap at hairline/temples, no bald side at any head-turn.
+            L2 volume: 6 chunky crown locks, heights varied ~25%, small tilts.
+            L3 fringe: 4 uneven front blocks swept low-left → high-right.
+            Tuning knobs: PROUD offset (piece sizes vs the 0.9 head), tilt kept
+            ≤ ~0.12 rad (12°) so nothing spikes, one ink colour so it reads as
+            a single mass. */}
+        {/* L1 — base cap: proud shell (top / sides / nape) + rounding dome */}
+        <mesh material={palette.ink} position={[0, 0.82, -0.03]}>
+          <boxGeometry args={[1.06, 0.24, 1.0]} />
         </mesh>
-        <mesh material={palette.ink} position={[0, 0.71, 0.32]} rotation={[0, 0, -0.05]}>
-          <boxGeometry args={[0.92, 0.22, 0.3]} />
+        <mesh material={palette.ink} position={[-0.49, 0.66, -0.05]}>
+          <boxGeometry args={[0.16, 0.24, 0.82]} />
         </mesh>
-        <mesh material={palette.ink} position={[-0.45, 0.62, -0.06]}>
-          <boxGeometry args={[0.1, 0.3, 0.7]} />
+        <mesh material={palette.ink} position={[0.49, 0.66, -0.05]}>
+          <boxGeometry args={[0.16, 0.24, 0.82]} />
         </mesh>
-        <mesh material={palette.ink} position={[0.45, 0.62, -0.06]}>
-          <boxGeometry args={[0.1, 0.3, 0.7]} />
+        <mesh material={palette.ink} position={[0, 0.5, -0.5]}>
+          <boxGeometry args={[0.92, 0.5, 0.24]} />
         </mesh>
-        <mesh material={palette.ink} position={[0, 0.6, -0.42]}>
-          <boxGeometry args={[0.9, 0.4, 0.2]} />
+        <mesh material={palette.ink} position={[0, 0.73, -0.04]} scale={[1, 0.42, 1.02]}>
+          <sphereGeometry args={[0.52, 14, 10]} />
         </mesh>
-        <mesh material={palette.ink} position={[0.24, 0.96, 0.12]} rotation={[0, 0.4, -0.15]}>
+        {/* L2 — volume locks on the crown: varied height, bounded tilt */}
+        <mesh material={palette.ink} position={[0, 0.86, 0.16]} rotation={[0.1, 0.04, -0.05]}>
           <boxGeometry args={[0.3, 0.24, 0.3]} />
         </mesh>
-        <mesh material={palette.ink} position={[-0.2, 0.97, -0.05]} rotation={[0, -0.5, 0.18]}>
-          <boxGeometry args={[0.26, 0.28, 0.26]} />
+        <mesh material={palette.ink} position={[-0.26, 0.87, 0.02]} rotation={[0.05, -0.1, 0.1]}>
+          <boxGeometry args={[0.28, 0.28, 0.3]} />
         </mesh>
-        <mesh material={palette.ink} position={[0.02, 0.98, -0.28]} rotation={[0.15, 0.8, 0]}>
-          <boxGeometry args={[0.22, 0.2, 0.24]} />
+        <mesh material={palette.ink} position={[0.26, 0.86, 0]} rotation={[0.05, 0.1, -0.1]}>
+          <boxGeometry args={[0.28, 0.22, 0.3]} />
         </mesh>
-        <mesh material={palette.ink} position={[-0.33, 0.9, 0.22]} rotation={[0, -0.35, 0.25]}>
-          <boxGeometry args={[0.24, 0.2, 0.26]} />
+        <mesh material={palette.ink} position={[0, 0.88, -0.16]} rotation={[-0.07, 0.03, 0.04]}>
+          <boxGeometry args={[0.3, 0.26, 0.3]} />
         </mesh>
-        <mesh material={palette.ink} position={[0.38, 0.88, -0.12]} rotation={[0, 0, -0.3]}>
-          <boxGeometry args={[0.2, 0.18, 0.22]} />
+        <mesh material={palette.ink} position={[-0.24, 0.85, -0.22]} rotation={[-0.05, -0.07, 0.08]}>
+          <boxGeometry args={[0.26, 0.22, 0.28]} />
+        </mesh>
+        <mesh material={palette.ink} position={[0.24, 0.86, -0.2]} rotation={[-0.05, 0.08, -0.06]}>
+          <boxGeometry args={[0.26, 0.24, 0.28]} />
+        </mesh>
+        {/* L3 — side-swept front fringe: uneven lengths break the hairline */}
+        <mesh material={palette.ink} position={[-0.26, 0.74, 0.47]} rotation={[0.1, 0.02, 0.14]}>
+          <boxGeometry args={[0.22, 0.22, 0.14]} />
+        </mesh>
+        <mesh material={palette.ink} position={[-0.07, 0.76, 0.49]} rotation={[0.09, 0, 0.1]}>
+          <boxGeometry args={[0.22, 0.2, 0.14]} />
+        </mesh>
+        <mesh material={palette.ink} position={[0.13, 0.78, 0.48]} rotation={[0.07, 0, 0.06]}>
+          <boxGeometry args={[0.22, 0.17, 0.14]} />
+        </mesh>
+        <mesh material={palette.ink} position={[0.3, 0.79, 0.45]} rotation={[0.05, 0, 0.03]}>
+          <boxGeometry args={[0.2, 0.15, 0.14]} />
         </mesh>
 
         {/* eyes — blink group scales; each eye rotates about its own center */}
@@ -575,7 +600,7 @@ export default function Avatar({
         flat
         dpr={[1, 2]} /* cap devicePixelRatio at 2 */
         frameloop={reducedMotion ? "demand" : "always"}
-        camera={{ fov: 32, position: [0, 1.9, 7.7], near: 0.1, far: 30 }}
+        camera={{ fov: 32, position: [0, 1.82, 8.1], near: 0.1, far: 30 }}
         fallback={null}
       >
         {/* flat lighting: high ambient + weak key so faces render close to

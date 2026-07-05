@@ -169,21 +169,48 @@ avatar is Om's hero and adding theirs on top would make it a clone.
 The 3D character component ("The Watcher") is built separately from
 AVATAR_SPEC.md. This section covers PLACEMENT + the dock, which Opus wires in.
 
-### "The Dock" — one persistent avatar, hero → corner (like neelmanimishra.com)
-- The avatar is mounted ONCE in the root layout so it persists across route
-  changes (it never unmounts/re-renders when navigating between pages).
-- **Home hero:** large, ~520–600px tall, sitting right of the intro text
-  (stacked above text on mobile). This is its "home" state.
-- **On scroll past the hero, AND on every non-home page:** it smoothly shrinks
-  (compact=true) and docks to a FIXED bottom-right corner (~90–110px), staying
-  there while the user reads/scrolls. It keeps tracking the cursor throughout.
-- The hero→corner change is a single animated transition of a fixed wrapper
-  (scale + position via Framer Motion / layout animation), driven by scroll
-  progress on home and by route on other pages — NOT two separate avatars.
-- Corner dock sits clear of the footer and text column; on small mobile it may
-  hide below a scroll threshold or shrink further so it never covers content.
-- Respects prefers-reduced-motion (snap instead of animate) and touch (no
-  cursor tracking, idle only) per the component spec.
+### "The Dock" — a THREE-STATE avatar (this is the exact intended behavior)
+The avatar is mounted ONCE in the root layout (persists across routes, never
+unmounts). Its state is driven by WHICH section is currently active (a single
+scroll-position / IntersectionObserver signal), with exactly three states.
+CRITICAL: the entrance animation must fire only ONCE on a state CHANGE — it must
+NOT re-trigger every time a new section scrolls into view. The current bug is
+that it re-animates in each section; fix by animating on state transitions only.
+
+STATE A — Intro (#intro active): avatar LARGE, full body, positioned right of
+the hero text (stacked above on mobile). Cursor-tracking on.
+
+STATE B — About (#about active): avatar HIDDEN. Fade + slide out (~400ms) so it
+disappears entirely while the user reads About. (About has its own desk/laptop
+doodle; the 3D avatar would compete with it.) No corner avatar during About.
+
+STATE C — Work / Now / Contact (#work, #now, or #contact active): avatar DOCKED
+in the fixed bottom-right corner, FULL body, cursor-tracking. It appears ONCE
+when Work first becomes active (slide in from the right edge, ~450ms), then
+STAYS PUT and static (only head/eyes react to the cursor) for the rest of the
+page. It must NOT re-animate, re-pop, or slide again when moving Work→Now→
+Contact — those are the same state C, so nothing re-triggers.
+
+### Dock sizing & placement (fix: current dock is too small)
+- Docked avatar should be noticeably larger than the current version — target
+  ~160–200px tall (full body visible head-to-sneakers), not ~90px.
+- Fixed to bottom-right, clear of the footer and the text column; never
+  overlapping body text. On small mobile, shrink or hide below a threshold so
+  it never covers content.
+
+### Transition quality
+- All state changes are single GPU-composited transforms (opacity + translate +
+  scale), ~400–600ms ease-in-out. Smooth, never jumpy or jittery.
+- Respect prefers-reduced-motion: states switch instantly (no animation).
+  Touch: idle only, no cursor tracking.
+
+### Implementation notes for whoever builds this
+- Derive ONE "activeSection" value (intro | about | work | now | contact) from
+  IntersectionObserver on the section elements. Map work/now/contact → state C.
+- Keep the avatar element persistent; only its wrapper's style/variant changes
+  per state. Do NOT unmount/remount it between states (that causes the reload
+  fl/ re-pop). Use a single AnimatePresence/variants setup keyed by state, not
+  by section, so Work→Now→Contact does not re-fire.
 
 ### The character (built in AVATAR_SPEC.md — summary for reference)
 Low-poly blocky college student: light-medium wheatish skin, clean short
@@ -193,13 +220,43 @@ sneakers. NO headphones. Head + eyes track cursor (both eyes symmetric at all
 angles); blinks; idle sway; gesture set on click — wave, nod, shrug, thumbs-up.
 Lazy-loaded, fully usable page before it loads.
 
+## Site structure — ONE flowing homepage + separate project detail pages
+The homepage is a single continuous vertical scroll of full sections in this
+order. The top nav is anchor links that smooth-scroll to each section (like
+neelmanimishra.com). Project DETAIL pages stay as their own routes.
+
+### Homepage section flow (in order)
+1. **Intro (#intro)** — hero: big DM Sans name "Om Sharma", Fraunces italic
+   tagline, one-line intro, the 3D avatar on the right (large). Nav sits at top.
+2. **About (#about)** — the /about paragraph content (single column, the
+   about copy from CONTENT.md), one illustrated element. CGPA aside appears
+   here, once.
+3. **Work (#work)** — the three project cards (numbered eyebrows, big serif
+   names, italic taglines, SVG motifs). Each card links OUT to its detail page
+   (/work/gradeops, /work/delhivery, /work/fixit).
+4. **Now (#now)** — the /now blocks (Learning / Grinding / Building).
+5. **Contact / footer (#contact)** — closing line + email · GitHub · LinkedIn
+   · Resume. A warm sign-off sentence (Om's version of a closing note).
+
+### Nav behavior
+- Fixed/sticky top nav: INTRO · ABOUT · WORK · NOW · CONTACT (mono, uppercase).
+- Clicking scrolls smoothly to that section (CSS scroll-behavior:smooth + scroll-
+  margin-top offset so headings aren't hidden under the sticky nav).
+- Active section highlights in the nav as you scroll (IntersectionObserver).
+- The avatar docks to the corner (The Dock) once you scroll past the Intro
+  section, and stays docked through About/Work/Now/Contact.
+- Respects prefers-reduced-motion (instant jump instead of smooth scroll).
+
+### Detail pages (unchanged, separate routes)
+/work/gradeops, /work/delhivery, /work/fixit keep the full case-study template.
+From a detail page, a "← back to work" link returns to /#work.
+
 ## Pages (build order)
-Phase 1: /  /now  /work  /about  + footer + 404
+Phase 1: single-page homepage (all 5 sections) + 3 project detail pages + 404
 Phase 2: texture, typography polish, hover details, OG images, favicon
-Phase 3: 3D avatar on home
-Phase 4 (later, when Om asks): /fragments (short notes), /shelf (books,
-papers, videos), /playground (experiments, CP stats, small demos),
-/colophon (how this site is built), /guestbook
+Phase 3: 3D avatar + The Dock
+Phase 4 (later, when Om asks): /fragments, /shelf, /playground, /colophon,
+/guestbook
 
 ## Thoroughness checklist (the Ojas standard — every phase must pass this)
 The reference site feels hand-finished because NO surface is default.

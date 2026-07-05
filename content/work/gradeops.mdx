@@ -19,25 +19,35 @@ motif: "gradeops"
 
 ## the problem
 
-Handwritten exam scripts have to be read and scored against a rubric,
-answer by answer. AI can handle the first pass — but no grade should go
-out without a human seeing it first.
+Grading handwritten exams at scale is slow and inconsistent, and pure-AI
+grading isn’t trustworthy enough to release directly. GradeOps keeps a human
+in the loop while letting AI do the heavy lifting — the machine reads and
+scores, a person always signs off.
 
 ## what i built
 
-A platform that OCRs handwritten exam scripts with NVIDIA Nemotron, scores
-each answer against instructor rubrics using Gemini, and routes every
-result through a human review queue before grades are released.
+A monorepo — a React (Vite) frontend and a FastAPI backend — covering the
+full flow. An instructor creates an exam with a rubric and uploads student
+scripts as PDFs; the system OCRs, scores, and queues each answer for a TA to
+approve, override, or flag; the instructor then releases grades.
 
 ## how it works
 
-A LangGraph state machine orchestrates the two-stage AI pipeline with
-SQLite checkpointing, so pending reviews survive server restarts. The
-backend is FastAPI + PostgreSQL with role-based cookie auth; the React
-frontend is built from scratch — instructor and TA dashboards, a
-keyboard-friendly review queue, and a landing page with Three.js visuals.
+NVIDIA Nemotron (via OpenRouter) reads each script, and Google Gemini scores
+the extracted answers against the rubric, returning structured feedback with
+a confidence reading. LangGraph runs this two-stage pipeline as a state
+machine that pauses for human judgment and persists its queue to SQLite, so
+pending reviews survive restarts. PyMuPDF handles the PDF reading, and the
+heavy model work runs as async background jobs.<FootnoteMark />
+
+<Footnote>
+  role-based access control throughout, with httponly cookie sessions — the
+  instructor and TA dashboards each see only what their role allows.
+</Footnote>
 
 ## results
 
-Ongoing — in development with the Coding Club at IIT Guwahati since
-March 2025.
+Ongoing — in active development with the Coding Club at IIT Guwahati. The
+two-stage pipeline, the human review queue, and the instructor and TA
+dashboards are built; the queue is keyboard-driven, and checkpointed state
+means a server restart never drops a pending review.

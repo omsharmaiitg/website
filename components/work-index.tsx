@@ -11,6 +11,8 @@ export type WorkCard = {
   tagline: string;
   tags: string[];
   motif: string;
+  link?: string;
+  demo?: string;
 };
 
 const filters = [
@@ -57,21 +59,52 @@ export function WorkIndex({ cards }: { cards: WorkCard[] }) {
 
       <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {visible.map((card) => (
-          <Link
+          <div
             key={card.slug}
-            href={`/work/${card.slug}`}
-            className="group flex flex-col border border-hairline p-7"
+            className="group relative flex flex-col border border-hairline p-7"
           >
             <div className="flex items-start justify-between gap-4">
               <span className="navlabel text-ink-muted">{card.number}</span>
               <WorkMotif name={card.motif} className="h-14 w-14 shrink-0" />
             </div>
             <h2 className="mt-6 text-subhead leading-snug">
-              <span className="gulink">{card.title}</span>
+              {/* The title link covers the whole card via an inset overlay,
+                  so the external links below can sit above it and stay
+                  independently clickable (no anchor nested in an anchor). */}
+              <Link
+                href={`/work/${card.slug}`}
+                className="gulink after:absolute after:inset-0 after:content-['']"
+              >
+                {card.title}
+              </Link>
             </h2>
             <p className="mt-3 italic text-ink-muted">{card.tagline}</p>
             <p className="meta mt-auto pt-6">{card.tags.join(" · ")}</p>
-          </Link>
+            {(card.link || card.demo) && (
+              <p className="relative z-10 mt-4 flex gap-5">
+                {card.link && (
+                  <a
+                    className="navlabel ulink text-accent"
+                    href={card.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    github ↗
+                  </a>
+                )}
+                {card.demo && (
+                  <a
+                    className="navlabel ulink text-accent"
+                    href={card.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    live ↗
+                  </a>
+                )}
+              </p>
+            )}
+          </div>
         ))}
       </div>
     </>

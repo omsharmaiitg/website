@@ -4,21 +4,26 @@ flow but must NOT invent facts, numbers, or projects.
 
 ## Identity
 - Name: Om Sharma
-- First-year B.Tech, Mechanical Engineering, IIT Guwahati (2025–present)
+- Sophomore (2nd year) B.Tech, IIT Guwahati (2025–present)
 - Email (public): om.sharma@iitg.ac.in
 - GitHub: https://github.com/omsharmaiitg
 - LinkedIn: https://www.linkedin.com/in/om-sharma2008/
 - Codeforces: om_sharma_ (max rating 1242)
 - DO NOT publish phone number anywhere on the site.
 
-## Hero (home page)
-Om Sharma — first-year at IIT Guwahati.
-I build ML systems and web things. Currently learning faster than my
-timetable allows.
-[links: work · now · about · github]
+## Hero (home page / #intro)
+Two-line title treatment (like the reference's "Hello, this is / Ojas Mutreja"):
+- Line 1, smaller Fraunces serif, muted: "Hello, this is"
+- Line 2, huge DM Sans weight 300, ink: "Om Sharma"
+Fraunces italic tagline below:
+- "— sophomore at IIT Guwahati, building ML systems and web things."
+Body sub-line (Plus Jakarta Sans): "Currently learning faster than my
+timetable allows."
+Nav at top: ABOUT · WORK · NOW · CONTACT (mono, uppercase).
+Avatar (FULL body) sits right of the text on desktop, above it on mobile.
 
 ## /about (single paragraph + contact)
-I'm Om, a first-year B.Tech student at IIT Guwahati, keeping an 8.3 CGPA
+I'm Om, a sophomore B.Tech student at IIT Guwahati, keeping an 8.3 CGPA
 while spending most of my time on machine learning, graphs, and the web.
 I like problems where math meets software: grading pipelines that read
 handwriting, logistics networks that reveal their bottlenecks, agents that
@@ -47,8 +52,8 @@ of me that watches your cursor.
 
 ### 1. GradeOps — AI-powered human-in-the-loop exam grading
 Tagline: *Grading handwritten exams — with humans in the loop.*
-Mar 2025 – Present · Coding Club, IIT Guwahati
-Tags: Python · FastAPI · React · LangGraph · Gemini · NVIDIA Nemotron · PostgreSQL
+2026 · Coding Club, IIT Guwahati
+Tags: React · FastAPI · LangGraph · Gemini · NVIDIA Nemotron · PostgreSQL
 Link: https://github.com/exharmonic/gradeops
 
 A platform that OCRs handwritten exam scripts with NVIDIA Nemotron, scores
@@ -60,9 +65,30 @@ role-based cookie auth; React frontend built from scratch — instructor and
 TA dashboards, keyboard-friendly review queue, and a landing page with
 Three.js visuals.
 
+Detail-page sections (use on /work/gradeops):
+- THE PROBLEM: Grading handwritten exams at scale is slow and inconsistent.
+  Pure-AI grading isn't trustworthy enough to release directly. GradeOps keeps
+  a human in the loop while letting AI do the heavy lifting.
+- WHAT I BUILT: A monorepo — a React (Vite) frontend and a FastAPI backend —
+  covering the full flow: an instructor creates an exam with a rubric and
+  uploads student scripts as PDFs; the system OCRs, scores, and queues each
+  answer for a TA to approve, override, or flag; the instructor then releases
+  grades.
+- HOW IT WORKS: NVIDIA Nemotron (via OpenRouter) reads each script; Google
+  Gemini scores the extracted answers against the rubric and returns structured
+  feedback with a confidence reading. LangGraph runs this as a state machine
+  that pauses for human judgment and persists its queue to SQLite, so pending
+  reviews survive restarts. PyMuPDF handles PDF reading; heavy model work runs
+  as async background jobs.
+- STACK: React 19 + Vite, React Router v7, Framer Motion, three.js
+  (@react-three/fiber + drei) for the landing visuals; FastAPI, LangGraph +
+  LangChain, PostgreSQL (app data) + SQLite (checkpoints), SQLAlchemy ORM,
+  PyJWT/pwdlib auth, httponly cookie sessions.
+- AUTH/SECURITY note: role-based access control with httponly cookie sessions.
+
 ### 2. Delhivery Network Intelligence — graph-based logistics optimization
 Tagline: *Finding the five hubs that slow a whole network down.*
-Jun 2025 · Consulting & Analytics Club, IIT Guwahati
+2026 · Consulting & Analytics Club, IIT Guwahati
 Tags: Python · XGBoost · NetworkX · node2vec · Pandas · Streamlit
 Link: https://github.com/omsharmaiitg/delivery-network-intelligence
 
@@ -90,13 +116,39 @@ Detail-page extras (use on /work/delhivery only):
 Tagline: *One pothole, reported five ways, becomes one issue.*
 2026 · Vibe2Ship Hackathon (Coding Ninjas × Google for Developers)
 Tags: Next.js 14 · Firebase · Gemini 2.5 Flash · Google Maps Platform · Cloud Run
+Link: https://github.com/omsharmaiitg/fixit
+Live: https://fixit-341094842696.asia-south1.run.app
 
 A civic reporting platform where citizens flag potholes, broken streetlights,
-and garbage issues. An AI "Watchtower" agent built on Gemini 2.5 Flash
-classifies and normalizes incoming reports and places them on a live city
-map, so the same pothole reported five ways becomes one actionable issue.
-Deployed on Google Cloud Run.
-(Om: add repo/demo link + your role line when ready.)
+water leaks, and garbage — and can actually see what happens next. It closes
+the broken feedback loop between people who see problems and the systems meant
+to fix them, using two AI agents and radical public transparency, with no
+government buy-in required.
+
+Detail-page sections (use on /work/fixit):
+- THE PROBLEM: People report civic issues into a void — reporting is
+  fragmented, untrackable, and opaque, and a citizen rarely learns whether a
+  report was verified, acknowledged, or fixed. FixIt makes the whole lifecycle
+  public and accountable.
+- WHAT I BUILT: Two AI agents, not one chatbot. A reactive Triage Agent turns
+  a short conversation + photo into a structured, geocoded, severity-rated,
+  de-duplicated record. A proactive Watchtower Agent runs on a schedule to
+  recompute urgency, cluster failures into Problem Zones with an AI root-cause
+  read, predict hotspots, and auto-write a weekly civic report.
+- HOW IT WORKS: The Triage Agent is a Gemini function-calling tool loop that
+  visibly reasons across tools — geocoding, duplicate-checking, live weather,
+  and a transparent severity score. The Watchtower Agent runs via Cloud
+  Scheduler. Every issue carries a public 0–100 Pressure Score (rises with
+  neglect, falls when authorities act) and an immutable, timestamped "Issue
+  DNA" life-story. All AI and geocoding calls run server-side — keys never
+  reach the browser.
+- RESULTS/FEATURES: proximity-weighted community verification (Reported →
+  Verified), issue aging (Fresh → Neglected → Critical → Civic Failure), a
+  login-free Public Impact Dashboard, and a deployed live app on Cloud Run.
+- STACK: Next.js 14 (App Router) + TypeScript + Tailwind; Gemini 2.5 Flash
+  (function calling, multimodal); Firebase (Firestore, Auth, Storage); Google
+  Maps Platform; Open-Meteo; Cloud Run + Cloud Build + Cloud Scheduler; ships
+  as a multi-stage Docker container.
 
 ## /work page footer line
 More experiments live on GitHub → https://github.com/omsharmaiitg

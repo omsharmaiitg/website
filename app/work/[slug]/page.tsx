@@ -35,7 +35,10 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <article className="mx-auto max-w-[720px] px-6 py-16 md:py-20">
-      <header className="md:flex md:items-start md:justify-between md:gap-10">
+      <Link href="/#work" className="navlabel ulink text-ink-muted">
+        ← back to work
+      </Link>
+      <header className="mt-8 md:flex md:items-start md:justify-between md:gap-10">
         <div className="min-w-0">
           <p className="navlabel text-ink-muted">
             {String(frontmatter.order).padStart(2, "0")} · {frontmatter.period}{" "}
@@ -64,7 +67,7 @@ export default async function ProjectPage({ params }: Params) {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  demo ↗
+                  live ↗
                 </a>
               )}
             </p>

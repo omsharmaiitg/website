@@ -11,28 +11,45 @@ tags:
   - "Gemini 2.5 Flash"
   - "Google Maps Platform"
   - "Cloud Run"
+link: "https://github.com/omsharmaiitg/fixit"
+demo: "https://fixit-341094842696.asia-south1.run.app"
 motif: "fixit"
 ---
 
 ## the problem
 
-The same pothole gets reported five different ways, and none of the
-reports add up to one issue anyone can act on.
+People report civic issues into a void. Reporting is fragmented,
+untrackable, and opaque — a citizen who flags a pothole, a broken
+streetlight, or a water leak rarely learns whether the report was verified,
+acknowledged, or fixed. FixIt makes the whole lifecycle public and
+accountable, with no government buy-in required.
 
 ## what i built
 
-A civic reporting platform where citizens flag potholes, broken
-streetlights, and garbage issues — and every report ends up as one
-actionable issue on a live city map.
+Two AI agents, not one chatbot. A reactive **Triage Agent** turns a short
+conversation and a photo into a structured, geocoded, severity-rated,
+de-duplicated record. A proactive **Watchtower Agent** runs on a schedule to
+recompute urgency, cluster failures into Problem Zones with an AI root-cause
+read, predict hotspots, and auto-write a weekly civic report.
 
 ## how it works
 
-An AI “Watchtower” agent built on Gemini 2.5 Flash classifies and
-normalizes incoming reports and places them on the live city map.
+The Triage Agent is a Gemini function-calling tool loop that visibly reasons
+across its tools — geocoding, duplicate-checking, live weather, and a
+transparent severity score. The Watchtower Agent runs on Cloud Scheduler.
+Every issue carries a public 0–100 Pressure Score that rises with neglect
+and falls when authorities act, plus an immutable, timestamped “Issue DNA”
+life-story.<FootnoteMark />
+
+<Footnote>
+  every AI and geocoding call runs server-side — the API keys never reach
+  the browser.
+</Footnote>
 
 ## results
 
-Built for the Vibe2Ship Hackathon (Coding Ninjas × Google for Developers)
-and deployed on Google Cloud Run.
-
-{/* Om: add repo/demo link + your role line when ready. */}
+A working, deployed platform: proximity-weighted community verification
+(Reported → Verified), issue aging (Fresh → Neglected → Critical → Civic
+Failure), and a login-free Public Impact Dashboard — all live on Cloud Run,
+shipped as a multi-stage Docker container for the Vibe2Ship Hackathon
+(Coding Ninjas × Google for Developers).

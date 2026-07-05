@@ -5,6 +5,7 @@ import {
   IBM_Plex_Mono,
   Plus_Jakarta_Sans,
 } from "next/font/google";
+import { AvatarDock } from "@/components/avatar-dock";
 import { CustomCursor } from "@/components/custom-cursor";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     template: "%s — Om Sharma",
   },
   description:
-    "First-year at IIT Guwahati. I build ML systems and web things.",
+    "Sophomore at IIT Guwahati. I build ML systems and web things.",
 };
 
 export default function RootLayout({
@@ -60,6 +61,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <AvatarDock />
         <CustomCursor />
       </body>
     </html>

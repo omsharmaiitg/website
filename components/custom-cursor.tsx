@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const INTERACTIVE_SELECTOR =
-  'a, button, [role="button"], input, select, textarea, label, #avatar-slot';
+  'a, button, [role="button"], input, select, textarea, label, #avatar-dock';
 
 /*
  * Desktop-only ink-dot cursor with spring lag; grows into a hollow ring
@@ -67,7 +67,7 @@ export function CustomCursor() {
         "is-ring",
         !!target?.closest(INTERACTIVE_SELECTOR),
       );
-      dot.classList.toggle("is-accent", !!target?.closest("#avatar-slot"));
+      dot.classList.toggle("is-accent", !!target?.closest("#avatar-dock"));
     };
 
     const onLeave = () => dot.classList.remove("is-visible");
