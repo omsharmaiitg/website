@@ -14,7 +14,7 @@ flow but must NOT invent facts, numbers, or projects.
 ## Hero (home page / #intro)
 Two-line title treatment (like the reference's "Hello, this is / Ojas Mutreja"):
 - Line 1, smaller Fraunces serif, muted: "Hello, this is"
-- Line 2, huge DM Sans weight 300, ink: "Om Sharma"
+- Line 2, huge Fraunces serif, ink: "Om Sharma"
 Fraunces italic tagline below:
 - "— sophomore at IIT Guwahati, building ML systems and web things."
 Body sub-line (Plus Jakarta Sans): "Currently learning faster than my

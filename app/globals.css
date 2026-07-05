@@ -30,7 +30,6 @@
 @theme inline {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-name: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
 }
 
@@ -76,12 +75,12 @@
 }
 
 @layer components {
-  /* Hero name — DM Sans 300, the one geometric title against Fraunces
-     everywhere else. Clamps up to the φ root (112px). */
+  /* Hero name — Fraunces, matching every other heading (weight 400,
+     -0.02em tracking). Clamps up to the φ root (112px). */
   .hero-name {
-    font-family: var(--font-name);
-    font-weight: 300;
-    letter-spacing: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
     line-height: 0.95;
     font-size: clamp(2.75rem, 8.5vw, var(--text-hero));
   }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DrapeLink } from "@/components/drape";
 import { projectMdxComponents, SectionHeading } from "@/components/mdx";
 import { WorkMotif } from "@/components/motifs";
 import { listWorkSlugs, loadWorkEntries, loadWorkEntry } from "@/lib/content";
@@ -35,9 +35,9 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <article className="mx-auto max-w-[720px] px-6 py-16 md:py-20">
-      <Link href="/#work" className="navlabel ulink text-ink-muted">
+      <DrapeLink href="/#work" className="navlabel ulink text-ink-muted">
         ← back to work
-      </Link>
+      </DrapeLink>
       <header className="mt-8 md:flex md:items-start md:justify-between md:gap-10">
         <div className="min-w-0">
           <p className="navlabel text-ink-muted">
@@ -94,15 +94,15 @@ export default async function ProjectPage({ params }: Params) {
       </ul>
 
       <nav className="mt-16 flex items-baseline justify-between gap-6 border-t border-hairline pt-8">
-        <Link className="navlabel ulink" href={`/work/${prev.slug}`}>
+        <DrapeLink className="navlabel ulink" href={`/work/${prev.slug}`}>
           ← {prev.frontmatter.title}
-        </Link>
-        <Link
+        </DrapeLink>
+        <DrapeLink
           className="navlabel ulink text-right"
           href={`/work/${next.slug}`}
         >
           {next.frontmatter.title} →
-        </Link>
+        </DrapeLink>
       </nav>
     </article>
   );

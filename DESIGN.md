@@ -35,23 +35,24 @@ blue accent as the differentiator (the reference is fully monochrome).
 - Grain: SVG feTurbulence, baseFrequency 0.65, ~4% opacity,
   mix-blend-mode: overlay, position: fixed over everything.
 
-## Typography (matched to the reference colophon's exact published values)
-Three families, all free via next/font/google:
-- **Fraunces** — display/headings. Weight 400, letter-spacing -0.02em.
-  Exception: hero intro line uses weight 300.
-- **DM Sans** — the hero NAME only ("Om Sharma"). Weight 300, letter-spacing 0.
-  (Reference uses DM Sans exclusively for the big hero name — it's what gives
-  that clean geometric title against the serif everywhere else.)
-- **Plus Jakarta Sans** — body, UI, captions. Weight 400.
-- **IBM Plex Mono** — Om's addition for tags/dates/nav eyebrows (small,
-  uppercase, letter-spaced). The reference has no mono; this pairs it with the
-  ink-illustration language and is fine to keep.
+## Typography (THREE fonts only — each with one clear job)
+All free via next/font/google. Do NOT introduce a fourth font.
+- **Fraunces** — ALL display/headings, including the big hero name. Weight 400,
+  letter-spacing -0.02em. This owns every large text moment: hero name "Om
+  Sharma", section headings ("Work"), project names, and italic taglines.
+  Hero intro line ("Hello, this is") uses Fraunces at a smaller size; the
+  tagline uses Fraunces italic.
+- **Plus Jakarta Sans** — body, UI, captions, sub-lines. Weight 400. (e.g. the
+  "Currently learning..." line and the About paragraph.)
+- **IBM Plex Mono** — tags, dates, nav eyebrows, "GITHUB/LIVE" labels, the
+  01/02/03 numbers. Small, uppercase + letter-spaced for nav/eyebrows.
+- REMOVED: DM Sans. The hero name is now Fraunces, not DM Sans — a second sans
+  next to Plus Jakarta Sans clashed. Delete the DM Sans import/usage entirely.
 - Use Fraunces italics deliberately: taglines, asides, pull-quotes, captions.
 
 ### Type scale (φ ratio, rooted at 112px — sibling of the reference's 128)
 112 → 69 → 43 → 26 → 16.5 → 10px, each step ÷ φ (1.618). The SAME ratio governs
-every spacing token — nothing arbitrary. (Reference roots at 128; Om's 112 keeps
-it a deliberate sibling, not a copy.) Scale down proportionally on mobile.
+every spacing token — nothing arbitrary. Scale down proportionally on mobile.
 - Generous line-height (1.6+ body), max text width ~65ch.
 
 ## Layout
@@ -132,9 +133,17 @@ do not invent new claims or numbers.
 ## Micro-interactions — every animation gets a NAME (the reference discipline)
 Naming forces intent and makes the colophon writable. Om's set:
 - **The Ghost** — the custom cursor (spec above).
-- **The Drape** — page-transition curtain: #1C1C1A wipe, ~500ms cover /
-  500ms reveal, GPU-composited (transform only). Skipped under
-  prefers-reduced-motion.
+- **The Drape** — page-transition curtain in dark ink #1C1C1A. Motion: a solid
+  panel RISES UP from the bottom edge to fully cover the screen, then (on the
+  new page) LIFTS AWAY upward off the top edge to reveal it. Each half ~450–
+  550ms, ease-in-out, GPU-composited (transform: translateY only, full-viewport
+  fixed overlay, high z-index). Must fire on navigation INTO a project detail
+  page (home/#work → /work/gradeops, /work/delhivery, /work/fixit) and on the
+  "← back to work" navigation. Optional micro-detail: a small centered mono
+  label or the project name can fade in on the covered frame. Skipped entirely
+  under prefers-reduced-motion (instant route change, no curtain). Ensure it
+  never traps clicks after revealing (overlay must be pointer-events:none /
+  unmounted once lifted).
 - **The Grain** — fixed feTurbulence texture layer (spec in Palette).
 - **The Lift** — card hover: translateY(-6px) + drop-shadow filter,
   400ms, GPU layer, never clipped by parent overflow.

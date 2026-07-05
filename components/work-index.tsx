@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { DrapeLink } from "@/components/drape";
 import { WorkMotif } from "@/components/motifs";
 
 export type WorkCard = {
@@ -71,12 +71,12 @@ export function WorkIndex({ cards }: { cards: WorkCard[] }) {
               {/* The title link covers the whole card via an inset overlay,
                   so the external links below can sit above it and stay
                   independently clickable (no anchor nested in an anchor). */}
-              <Link
+              <DrapeLink
                 href={`/work/${card.slug}`}
                 className="gulink after:absolute after:inset-0 after:content-['']"
               >
                 {card.title}
-              </Link>
+              </DrapeLink>
             </h2>
             <p className="mt-3 italic text-ink-muted">{card.tagline}</p>
             <p className="meta mt-auto pt-6">{card.tags.join(" · ")}</p>

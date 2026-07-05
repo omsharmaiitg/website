@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import {
-  DM_Sans,
-  Fraunces,
-  IBM_Plex_Mono,
-  Plus_Jakarta_Sans,
-} from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { AvatarDock } from "@/components/avatar-dock";
 import { CustomCursor } from "@/components/custom-cursor";
+import { DrapeProvider } from "@/components/drape";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
@@ -18,13 +14,6 @@ const fraunces = Fraunces({
   style: ["normal", "italic"],
   axes: ["opsz"],
   variable: "--font-fraunces",
-});
-
-// DM Sans — the big hero name only. Weight 300.
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300"],
-  variable: "--font-dm-sans",
 });
 
 // Plus Jakarta Sans — body / UI / captions. 400, plus 600 for prose <strong>.
@@ -55,14 +44,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${dmSans.variable} ${jakarta.variable} ${plexMono.variable}`}
+      className={`${fraunces.variable} ${jakarta.variable} ${plexMono.variable}`}
     >
       <body className="flex min-h-dvh flex-col bg-paper font-sans text-ink antialiased">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        <AvatarDock />
-        <CustomCursor />
+        <DrapeProvider>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+          <AvatarDock />
+          <CustomCursor />
+        </DrapeProvider>
       </body>
     </html>
   );
