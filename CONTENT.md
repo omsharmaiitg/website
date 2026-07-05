@@ -15,11 +15,11 @@ flow but must NOT invent facts, numbers, or projects.
 Two-line title treatment (like the reference's "Hello, this is / Ojas Mutreja"):
 - Line 1, smaller Fraunces serif, muted: "Hello, this is"
 - Line 2, huge Fraunces serif, ink: "Om Sharma"
-Fraunces italic tagline below (branch appears here, ONCE):
-- "— sophomore at IIT Guwahati, finding my way into ML and the web."
-Body sub-line (Plus Jakarta Sans): "Mechanical on paper; most days I'm deep in
-machine learning, algorithms, and code — learning faster than my timetable
-asks me to."
+Fraunces italic tagline below (branch mentioned here, ONCE, lightly):
+- "— Mechanical Engineering sophomore at IIT Guwahati, exploring ML,
+  algorithms, and the web."
+Body sub-line (Plus Jakarta Sans): "Currently learning faster than my
+timetable allows."
 Nav at top: ABOUT · WORK · NOW · CONTACT (mono, uppercase).
 Avatar (FULL body) sits right of the text on desktop, above it on mobile.
 
@@ -29,8 +29,8 @@ but also never say he "can't" or "doesn't know". Confident-but-honest.
 
 ## /about (single paragraph + contact)
 I'm Om, a sophomore B.Tech student at IIT Guwahati, keeping an 8.3 CGPA while
-spending most of my hours somewhere machine learning, graphs, and the web
-overlap. I'm drawn to problems where math meets software — reading handwriting
+spending most of my hours where math, code, and curiosity overlap. I'm drawn to
+problems where theory meets something you can actually run — reading handwriting
 with models, pulling the bottlenecks out of a logistics network, teaching an
 agent to bid in an auction. I'm early in all of it and learning fast, and I'd
 rather show you what I've been figuring out than what I've mastered. Around
