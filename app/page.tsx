@@ -1,4 +1,4 @@
-import { DeskMotif, ScribbleUnderline, SparklineMotif } from "@/components/motifs";
+import { DeskMotif, SparklineMotif } from "@/components/motifs";
 import { WorkIndex } from "@/components/work-index";
 import { loadMdx, loadWorkEntries } from "@/lib/content";
 
@@ -36,7 +36,6 @@ export default async function HomePage() {
             Hello, this is
           </p>
           <h1 className="hero-name mt-1">{home.frontmatter.name}</h1>
-          <ScribbleUnderline className="mt-3 h-2.5 w-52 text-accent" />
           <p className="hero-intro mt-phi-2 text-subhead text-ink-muted">
             — {home.frontmatter.tagline}.
           </p>
