@@ -37,8 +37,16 @@ export function SiteFooter() {
         >
           LinkedIn
         </a>
-        {/* Resume link returns once Om sends resume.pdf — until the file
-            exists in /public it would be a dead href. */}
+        <Dot />
+        {/* Links to /public/resume.pdf — works once Om drops the file in. */}
+        <a
+          className="ulink"
+          href="/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Resume
+        </a>
         <Dot />
         <span className="italic">built with Next.js</span>
       </div>

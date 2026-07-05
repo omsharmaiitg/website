@@ -15,26 +15,36 @@ flow but must NOT invent facts, numbers, or projects.
 Two-line title treatment (like the reference's "Hello, this is / Ojas Mutreja"):
 - Line 1, smaller Fraunces serif, muted: "Hello, this is"
 - Line 2, huge Fraunces serif, ink: "Om Sharma"
-Fraunces italic tagline below:
-- "— sophomore at IIT Guwahati, building ML systems and web things."
-Body sub-line (Plus Jakarta Sans): "Currently learning faster than my
-timetable allows."
+Fraunces italic tagline below (branch appears here, ONCE):
+- "— sophomore at IIT Guwahati, finding my way into ML and the web."
+Body sub-line (Plus Jakarta Sans): "Mechanical on paper; most days I'm deep in
+machine learning, algorithms, and code — learning faster than my timetable
+asks me to."
 Nav at top: ABOUT · WORK · NOW · CONTACT (mono, uppercase).
 Avatar (FULL body) sits right of the text on desktop, above it on mobile.
 
+Wording rules for this section: hint that Om is early / still learning, framed
+with curiosity and momentum — never claim he "builds anything" or is an expert,
+but also never say he "can't" or "doesn't know". Confident-but-honest.
+
 ## /about (single paragraph + contact)
-I'm Om, a sophomore B.Tech student at IIT Guwahati, keeping an 8.3 CGPA
-while spending most of my time on machine learning, graphs, and the web.
-I like problems where math meets software: grading pipelines that read
-handwriting, logistics networks that reveal their bottlenecks, agents that
-bid in auctions. Around campus I work with the Coding Club's ML module
-(Deputy Coordinator), the Finance & Economics Club, and the
-Entrepreneurship Cell.
+I'm Om, a sophomore B.Tech student at IIT Guwahati, keeping an 8.3 CGPA while
+spending most of my hours somewhere machine learning, graphs, and the web
+overlap. I'm drawn to problems where math meets software — reading handwriting
+with models, pulling the bottlenecks out of a logistics network, teaching an
+agent to bid in an auction. I'm early in all of it and learning fast, and I'd
+rather show you what I've been figuring out than what I've mastered. Around
+campus you'll find me with the Coding Club's ML module (Deputy Coordinator),
+the Finance & Economics Club, the Entrepreneurship Cell, and the Aeromodelling
+and Robotics clubs.
 Say hi: om.sharma@iitg.ac.in
 
-Notes: college performance is mentioned exactly ONCE (the CGPA aside above)
-and never repeated. Do NOT mention Om's branch/department anywhere on the
-site — the resume PDF covers that.
+Wording rules: convey that Om is a fast-learning beginner with real curiosity —
+hint at "still learning / early" positively (e.g. "figuring out", "learning
+fast"), NEVER state he "can't", "doesn't know", or is an expert who "builds
+anything". College performance (CGPA) is mentioned exactly ONCE, here. Branch
+("Mechanical") is mentioned exactly ONCE on the whole site, in the HERO — not
+repeated here.
 
 ## /now (initial content — Om will update this file over time)
 Last updated: July 2026
@@ -153,5 +163,11 @@ Detail-page sections (use on /work/fixit):
 ## /work page footer line
 More experiments live on GitHub → https://github.com/omsharmaiitg
 
-## Footer (all pages)
+## Footer (all pages) + Contact section
 om.sharma@iitg.ac.in · GitHub · LinkedIn · Resume (PDF) · built with Next.js
+
+RESUME LINK — currently missing from the live site. To fix: place the resume
+PDF at /public/resume.pdf in the repo, then link "Resume" to /resume.pdf with
+target="_blank" rel="noopener". The link must appear in BOTH the footer and the
+Contact (#contact) section. (Om: drop your resume.pdf into /public — remember to
+update its project dates to 2026 first so it matches the site.)
