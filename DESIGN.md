@@ -183,6 +183,13 @@ the hero text (stacked above on mobile). Cursor-tracking on.
 STATE B — About (#about active): avatar HIDDEN. Fade + slide out (~400ms) so it
 disappears entirely while the user reads About. (About has its own desk/laptop
 doodle; the 3D avatar would compete with it.) No corner avatar during About.
+IMPORTANT — trigger EARLY so the large hero avatar never lingers into / collides
+with the About section: switch OUT of State A as soon as the user starts leaving
+the intro (e.g. once the intro section is ~40–50% scrolled past, or the About
+section's top crosses ~70–80% of the viewport height — a HIGH rootMargin /
+threshold), not only when About is fully in view. The hero avatar must be fully
+gone before the ABOUT eyebrow and desk doodle reach mid-screen. Err on hiding
+too early rather than too late.
 
 STATE C — Work / Now / Contact (#work, #now, or #contact active): avatar DOCKED
 in the fixed bottom-right corner, FULL body, cursor-tracking. It appears ONCE
@@ -191,12 +198,20 @@ STAYS PUT and static (only head/eyes react to the cursor) for the rest of the
 page. It must NOT re-animate, re-pop, or slide again when moving Work→Now→
 Contact — those are the same state C, so nothing re-triggers.
 
-### Dock sizing & placement (fix: current dock is too small)
-- Docked avatar should be noticeably larger than the current version — target
-  ~160–200px tall (full body visible head-to-sneakers), not ~90px.
-- Fixed to bottom-right, clear of the footer and the text column; never
-  overlapping body text. On small mobile, shrink or hide below a threshold so
-  it never covers content.
+### Dock sizing & placement (fix: must be FIXED to the screen corner, and LARGER)
+- The docked avatar must be `position: fixed` to the VIEWPORT's extreme
+  bottom-right corner — NOT placed inside a section's layout flow, and NOT
+  floating in the middle-right near the text. It stays pinned to the bottom-
+  right of the screen as the user scrolls.
+- Anchor it tight to the corner: roughly right: 16–24px, bottom: 16–24px.
+- Size it LARGER: target ~220–260px tall (full body head-to-sneakers visible).
+  The current ~100–120px is too small. It should read as a clear little figure
+  in the corner, not a tiny icon.
+- It must sit ABOVE page content (high z-index) but must never cover body text
+  in the reading column — the bottom-right corner is chosen precisely because
+  the text column is centered/left, so they don't collide on desktop.
+- On small mobile, shrink to ~140–160px or hide below a scroll threshold so it
+  never covers content.
 
 ### Transition quality
 - All state changes are single GPU-composited transforms (opacity + translate +
