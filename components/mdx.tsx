@@ -1,13 +1,19 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { Stats } from "@/components/stats";
 
-/* Section eyebrows: THE PROBLEM → WHAT I BUILT → HOW IT WORKS → RESULTS. */
-export function SectionHeading(props: ComponentPropsWithoutRef<"h2">) {
+/* Section eyebrows: THE PROBLEM → WHAT I BUILT → HOW IT WORKS → RESULTS.
+   Mono label followed by a hairline rule that fills the remaining width. */
+export function SectionHeading({
+  children,
+  ...props
+}: ComponentPropsWithoutRef<"h2">) {
   return (
-    <h2
-      {...props}
-      className="navlabel mt-12 mb-5 border-t border-hairline pt-8 text-ink-muted"
-    />
+    <h2 {...props} className="mt-20 mb-8 flex items-center gap-5">
+      <span className="navlabel whitespace-nowrap text-ink-muted">
+        {children}
+      </span>
+      <span aria-hidden="true" className="h-px flex-1 bg-hairline" />
+    </h2>
   );
 }
 

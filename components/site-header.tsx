@@ -11,6 +11,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const onHome = pathname === "/";
   const [active, setActive] = useState<Section>("intro");
+  const [scrolled, setScrolled] = useState(false);
 
   // Active-section highlight: a section is active when it crosses the viewport
   // midline. Only runs on the single-page home.
@@ -33,9 +34,11 @@ export function SiteHeader() {
     // Bottom sections shorter than half the viewport never cross the midline —
     // pin the last one active once scrolled to the end.
     const onScroll = () => {
+      setScrolled(window.scrollY > 40);
       if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4)
         setActive("contact");
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       io.disconnect();
@@ -55,9 +58,19 @@ export function SiteHeader() {
       setActive(id);
     };
 
+  // Home starts transparent over the hero and turns solid once scrolled;
+  // detail pages are always solid (no hero to sit over).
+  const solid = !onHome || scrolled;
+
   return (
-    <header className="sticky top-0 z-50 border-b border-hairline bg-paper/85 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1080px] items-baseline justify-between px-6 py-4">
+    <header
+      className={`sticky top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
+        solid
+          ? "border-hairline bg-paper/85 backdrop-blur-sm"
+          : "border-transparent"
+      }`}
+    >
+      <div className="mx-auto flex max-w-[1120px] items-baseline justify-between px-6 py-4">
         <Link
           href={onHome ? "#intro" : "/"}
           onClick={handleClick("intro")}

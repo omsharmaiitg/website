@@ -34,18 +34,20 @@ export default async function ProjectPage({ params }: Params) {
   const next = entries[(index + 1) % entries.length];
 
   return (
-    <article className="mx-auto max-w-[720px] px-6 py-16 md:py-20">
+    <article className="mx-auto max-w-[880px] px-6 py-16 md:py-20">
       <DrapeLink href="/#work" className="navlabel ulink text-ink-muted">
         ← back to work
       </DrapeLink>
-      <header className="mt-8 md:flex md:items-start md:justify-between md:gap-10">
+      <header className="mt-8 grid gap-10 md:grid-cols-[minmax(0,1fr)_200px] md:items-start md:gap-14">
         <div className="min-w-0">
           <p className="navlabel text-ink-muted">
             {String(frontmatter.order).padStart(2, "0")} · {frontmatter.period}{" "}
             · {frontmatter.org}
           </p>
-          <h1 className="mt-4 text-title">{frontmatter.title}</h1>
-          <p className="mt-4 text-xl italic text-ink-muted">
+          <h1 className="mt-6 text-[clamp(2.5rem,6.5vw,var(--text-display))] leading-[1.02]">
+            {frontmatter.title}
+          </h1>
+          <p className="hero-intro mt-6 text-subhead text-ink-muted">
             {frontmatter.tagline}
           </p>
           {(frontmatter.link || frontmatter.demo) && (
@@ -75,7 +77,7 @@ export default async function ProjectPage({ params }: Params) {
         </div>
         <WorkMotif
           name={frontmatter.motif}
-          className="mt-8 h-24 w-24 md:mt-2 md:h-36 md:w-36 md:shrink-0"
+          className="h-32 w-32 text-ink md:mt-4 md:h-[200px] md:w-[200px] md:justify-self-end"
         />
       </header>
 

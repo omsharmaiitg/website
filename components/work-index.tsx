@@ -7,12 +7,11 @@ import { WorkMotif } from "@/components/motifs";
 export type WorkCard = {
   slug: string;
   number: string;
+  year: string;
   title: string;
   tagline: string;
   tags: string[];
   motif: string;
-  link?: string;
-  demo?: string;
 };
 
 const filters = [
@@ -38,73 +37,60 @@ export function WorkIndex({ cards }: { cards: WorkCard[] }) {
 
   return (
     <>
-      <div className="mt-8 flex flex-wrap items-baseline gap-2 print:hidden">
-        <span className="meta mr-2">Filter by stack:</span>
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            type="button"
-            aria-pressed={filter === active}
-            onClick={() => setActive(filter)}
-            className={`rounded-full border px-3 py-1 font-mono text-[0.6875rem] tracking-[0.08em] transition-colors duration-200 ${
-              filter === active
-                ? "border-accent text-accent"
-                : "border-hairline text-ink-muted hover:border-ink hover:text-ink"
-            }`}
-          >
-            {filter}
-          </button>
-        ))}
+      <div className="mt-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 print:hidden">
+        <span className="navlabel text-ink-muted">Filter by stack:</span>
+        {filters.map((filter) => {
+          const on = filter === active;
+          return (
+            <button
+              key={filter}
+              type="button"
+              aria-pressed={on}
+              onClick={() => setActive(filter)}
+              className={`navlabel ulink transition-colors ${
+                on ? "text-ink" : "text-ink-muted hover:text-ink"
+              }`}
+              style={on ? { backgroundSize: "100% 1px" } : undefined}
+            >
+              {filter}
+            </button>
+          );
+        })}
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 border-b border-hairline">
         {visible.map((card) => (
-          <div
+          <DrapeLink
             key={card.slug}
-            className="group relative flex flex-col border border-hairline p-7"
+            href={`/work/${card.slug}`}
+            className="group grid grid-cols-[64px_minmax(0,1fr)] items-center gap-8 border-t border-hairline py-10 md:grid-cols-[88px_minmax(0,1fr)_150px] md:gap-12 md:py-12"
           >
-            <div className="flex items-start justify-between gap-4">
-              <span className="navlabel text-ink-muted">{card.number}</span>
-              <WorkMotif name={card.motif} className="h-14 w-14 shrink-0" />
+            <div>
+              <p className="meta">{card.number}</p>
+              {card.year && <p className="meta mt-2">{card.year}</p>}
             </div>
-            <h2 className="mt-6 text-subhead leading-snug">
-              {/* The title link covers the whole card via an inset overlay,
-                  so the external links below can sit above it and stay
-                  independently clickable (no anchor nested in an anchor). */}
-              <DrapeLink
-                href={`/work/${card.slug}`}
-                className="gulink after:absolute after:inset-0 after:content-['']"
-              >
-                {card.title}
-              </DrapeLink>
-            </h2>
-            <p className="mt-3 italic text-ink-muted">{card.tagline}</p>
-            <p className="meta mt-auto pt-6">{card.tags.join(" · ")}</p>
-            {(card.link || card.demo) && (
-              <p className="relative z-10 mt-4 flex gap-5">
-                {card.link && (
-                  <a
-                    className="navlabel ulink text-accent"
-                    href={card.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    github ↗
-                  </a>
-                )}
-                {card.demo && (
-                  <a
-                    className="navlabel ulink text-accent"
-                    href={card.demo}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    live ↗
-                  </a>
-                )}
+            <div>
+              <h3 className="text-[clamp(1.75rem,4vw,var(--text-title))] leading-tight">
+                <span className="gulink">{card.title}</span>
+                <span
+                  aria-hidden="true"
+                  className="ml-4 inline-block -translate-x-2 font-mono text-[0.55em] text-ink-muted opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                  →
+                </span>
+              </h3>
+              <p className="hero-intro mt-3 text-xl text-ink-muted">
+                {card.tagline}
               </p>
-            )}
-          </div>
+              <p className="meta mt-5 uppercase tracking-[0.1em]">
+                {card.tags.join(" · ")}
+              </p>
+            </div>
+            <WorkMotif
+              name={card.motif}
+              className="hidden justify-self-end text-ink md:block md:h-[130px] md:w-[130px]"
+            />
+          </DrapeLink>
         ))}
       </div>
     </>
